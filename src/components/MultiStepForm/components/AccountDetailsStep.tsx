@@ -41,7 +41,7 @@ const AccountDetailsStep: React.FC<StepProps> = ({ formData, onFormDataChange })
           type="password"
           id="password"
           name="password"
-          value={formData.password}
+          value={formData.password || ""}
           onChange={onFormDataChange}
           required
           className={inputClassName}

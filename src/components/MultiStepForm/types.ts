@@ -4,10 +4,14 @@ export interface FormData {
   password: string;
   name: string;
   surname: string;
+  [key: string]: string;
 }
+
+export type FormDataWithoutPassword = Omit<FormData, 'password'>;
 
 export interface MultiStepFormProps {
   onSubmit: (data: FormData) => void;
+  onChange?: (data: FormData) => void;
 }
 
 export interface StepProps {

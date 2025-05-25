@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal/Modal';
-import MultiStepForm from '../components/MultiStepForm/MultiStepForm';
+import LoginMultiStepForm from '../components/MultiStepForm/MultiStepForm';
 import { useModal } from '../hooks/useModal';
 
 interface FormData {
@@ -13,22 +13,22 @@ interface FormData {
 }
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
   const { isOpen, setIsOpen, showModal } = useModal();
   const [formData, setFormData] = useState<FormData | null>(null);
 
-  const handleFormSubmit = (data: FormData) => {
+  const handleFormSubmit = useCallback((data: FormData) => {
     setFormData(data);
     setIsOpen(false);
     console.log('Form submitted:', data);
-    // Here you would typically handle authentication
-    // For now, we'll just navigate to the home page
-    navigate('/');
-  };
+  }, [setIsOpen]);
 
-  const handleFormChange = (data: FormData) => {
+  const handleFormChange = useCallback((data: FormData) => {
     console.log('Form changed:', data);
-  };
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    console.log('Modal closed');
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -48,12 +48,10 @@ const Login: React.FC = () => {
         <Modal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          onClose={() => {
-            console.log('Modal closed');
-          }}
+          onClose={handleModalClose}
           header="Registration Form"
         >
-          <MultiStepForm 
+          <LoginMultiStepForm 
             onSubmit={handleFormSubmit} 
             onChange={handleFormChange}
           />
